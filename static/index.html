@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recomendaciones de Ahorro de Energía</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Carga el script con defer para que se ejecute cuando el DOM esté listo -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>EcoWise: Energy Saving Tips</h1>
+    <p>
+      Aquí podrás consultar sugerencias para utilizar mejor tus electrodomésticos
+      y ayudar al planeta. Elige una de las opciones:
+    </p>
+  </header>
+
+  <div class="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="C:\Users\joell\Documents\talento tech\proyecto_final\static\images\image1.jpg" alt="Ahorro de energía 1" />
+      </div>
+      <div class="carousel-item">
+        <img src="C:\Users\joell\Documents\talento tech\proyecto_final\static\images\image2.jpg" alt="Ahorro de energía 2" />
+      </div>
+      <div class="carousel-item">
+        <img src="C:\Users\joell\Documents\talento tech\proyecto_final\static\images\image3.jpg" alt="Ahorro de energía 3" />
+      </div>
+      <div class="carousel-item">
+        <img src="C:\Users\joell\Documents\talento tech\proyecto_final\static\images\image3.jpg" alt="Ahorro de energía 3" />
+      </div>
+      <div class="carousel-item">
+        <img src="C:\Users\joell\Documents\talento tech\proyecto_final\static\images\image3.jpg" alt="Ahorro de energía 3" />
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <section class="actions">
+      <button onclick="fetchAllRecommendations()">
+        Ver todas las recomendaciones
+      </button>
+
+      <div class="section-input">
+        <label for="idInput"><strong>¿Tienes el ID de un electrodoméstico?</strong></label>
+        <input type="number" id="idInput" placeholder="Ej: 1" />
+        <button onclick="fetchRecommendationById()">
+          Buscar por ID
+        </button>
+      </div>
+
+      <div class="section-input">
+        <label for="electroInput"><strong>Buscar por nombre de electrodoméstico:</strong></label>
+        <input type="text" id="electroInput" placeholder="Ej: Refrigerador" />
+        <button onclick="fetchByElectrodomestico()">
+          Buscar
+        </button>
+      </div>
+
+      <div class="section-input">
+        <label for="chatbotInput"><strong>¿Tienes una pregunta? (Chatbot)</strong></label>
+        <input type="text" id="chatbotInput" placeholder="Ej: Cómo ahorrar con la lavadora" />
+        <button onclick="chatbotSearch()">
+          Preguntar
+        </button>
+      </div>
+    </section>
+
+    <!-- Sección que muestra resultados (oculta hasta que tengamos algo que mostrar) -->
+    <section id="results" class="results hidden">
+      <h2>Estas son las recomendaciones:</h2>
+      <pre id="resultsContent"></pre>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 - Proyecto Talento Tech</p>
+  </footer>
+</body>
+</html>

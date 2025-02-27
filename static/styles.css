@@ -118,6 +118,69 @@ button:hover {
   text-align: justify
 }
 
+/* Estilos para el contenido de los resultados */
+/* Estilos para el efecto de escritura */
+#resultsContent {
+  font-family: monospace; /* Fuente tipo máquina de escribir */
+  white-space: pre-wrap; /* Mantiene los saltos de línea y espacios */
+  overflow: hidden; /* Oculta el texto que aún no se ha "escrito" */
+  border-right: 2px solid #000; /* Cursor parpadeante */
+  animation: blink-caret 0.75s step-end infinite;
+}
+
+/* Animación del cursor parpadeante */
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: #000; }
+}
+.recommendation ul {
+  list-style-type: none;
+  padding: 0;
+  margin:inherit; /* Centra la lista horizontalmente */
+  width: 100%;
+}
+/* Estilos para las recomendaciones */
+.recommendation {
+  background-color: #fff;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px; /* Limita el ancho para que no se vea demasiado ancho */
+}
+
+.recommendation h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  text-align: center; /* Centra el título de la recomendación */
+}
+
+.recommendation ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0 auto; /* Centra la lista horizontalmente */
+  width: 90%; /* La lista ocupa el 90% del ancho del bloque de resultados */
+}
+
+.recommendation ul li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  word-wrap: break-word; /* Asegura que el texto se ajuste y haga saltos de línea */
+  overflow-wrap: break-word; /* Alternativa moderna para word-wrap */
+  white-space: normal; /* Asegura que el texto no se comporte como una sola línea */
+}
+
+.recommendation ul li:last-child {
+  border-bottom: none;
+}
+
+.error {
+  color: #e74c3c;
+  font-weight: bold;
+  text-align: center; /* Centra los mensajes de error */
+}
+
 .hidden {
   display: none;
 }

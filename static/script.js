@@ -36,9 +36,32 @@
  const resultsContent = document.getElementById("resultsContent");
  
 /**
- * Muestra los datos en la sección de resultados con un formato amigable.
+ * Función para mostrar texto con efecto de escritura.
+ * @param {HTMLElement} element - El elemento donde se mostrará el texto.
+ * @param {string} text - El texto que se mostrará.
+ * @param {number} speed - Velocidad de escritura (en milisegundos).
  */
- function displayResults(data) {
+ function typeWriter(element, text, speed = 10) {
+  let i = 0;
+  element.innerHTML = ""; // Limpia el contenido anterior
+
+  function type() {
+    if (i < text.length) {
+      element.innerHTML += text.charAt(i); // Agrega una letra
+      i++;
+      setTimeout(type, speed); // Llama a la función de nuevo después de un tiempo
+    } else {
+      element.style.borderRight = "none"; // Oculta el cursor al finalizar
+    }
+  }
+
+  type(); // Inicia el efecto
+}
+
+/**
+ * Muestra los datos en la sección de resultados con efecto de escritura.
+ */
+function displayResults(data) {
   const resultsContent = document.getElementById("resultsContent");
 
   // Limpia el contenido anterior
@@ -46,68 +69,58 @@
 
   // Si no hay datos, muestra un mensaje
   if (!data || (Array.isArray(data) && data.length === 0)) {
-    resultsContent.innerHTML = "<p>No se encontraron resultados.</p>";
+    typeWriter(resultsContent, "No se encontraron resultados.");
     resultsSection.classList.remove("hidden");
     return;
   }
 
   // Si es un mensaje de error, muéstralo
   if (data.error) {
-    resultsContent.innerHTML = `<p class="error">${data.error}</p>`;
+    typeWriter(resultsContent, `Error: ${data.error}`);
     resultsSection.classList.remove("hidden");
     return;
   }
 
   // Si es una respuesta del chatbot
   if (data.respuesta && data.Recomendaciones) {
-    const chatbotHTML = `
-      <p><strong>${data.respuesta}</strong></p>
-      ${data.Recomendaciones.map(rec => `
-        <div class="recommendation">
-          <h3>${rec.ElectroDomestico}</h3>
-          <ul>
-            ${Object.entries(rec)
-              .filter(([key, value]) => key !== "ID" && key !== "ElectroDomestico" && value)
-              .map(([key, value]) => `<li><strong>${key}:</strong> ${value}</li>`)
-              .join("")}
-          </ul>
-        </div>
-      `).join("")}
-    `;
+    let fullText = `${data.respuesta}\n\n`;
+    data.Recomendaciones.forEach(rec => {
+      fullText += `${rec.ElectroDomestico}\n`;
+      Object.entries(rec).forEach(([key, value]) => {
+        if (key !== "ID" && key !== "ElectroDomestico" && value) {
+          fullText += `- ${value}\n`;
+        }
+      });
+      fullText += "\n";
+    });
 
-    resultsContent.innerHTML = chatbotHTML;
+    typeWriter(resultsContent, fullText);
   }
   // Si es una lista de recomendaciones (para otras consultas)
   else if (Array.isArray(data)) {
-    const recommendationsHTML = data.map(rec => `
-      <div class="recommendation">
-        <h3>${rec.ElectroDomestico}</h3>
-        <ul>
-          ${Object.entries(rec)
-            .filter(([key, value]) => key !== "ID" && key !== "ElectroDomestico" && value)
-            .map(([key, value]) => `<li><strong>${key}:</strong> ${value}</li>`)
-            .join("")}
-        </ul>
-      </div>
-    `).join("");
+    let fullText = "";
+    data.forEach(rec => {
+      fullText += `${rec.ElectroDomestico}\n`;
+      Object.entries(rec).forEach(([key, value]) => {
+        if (key !== "ID" && key !== "ElectroDomestico" && value) {
+          fullText += `- ${value}\n`;
+        }
+      });
+      fullText += "\n";
+    });
 
-    resultsContent.innerHTML = recommendationsHTML;
+    typeWriter(resultsContent, fullText);
   }
   // Si es un solo objeto (por ejemplo, búsqueda por ID)
   else {
-    const recommendationHTML = `
-      <div class="recommendation">
-        <h3>${data.ElectroDomestico}</h3>
-        <ul>
-          ${Object.entries(data)
-            .filter(([key, value]) => key !== "ID" && key !== "ElectroDomestico" && value)
-            .map(([key, value]) => `<li><strong>${key}:</strong> ${value}</li>`)
-            .join("")}
-        </ul>
-      </div>
-    `;
+    let fullText = `${data.ElectroDomestico}\n`;
+    Object.entries(data).forEach(([key, value]) => {
+      if (key !== "ID" && key !== "ElectroDomestico" && value) {
+        fullText += `- ${value}\n`;
+      }
+    });
 
-    resultsContent.innerHTML = recommendationHTML;
+    typeWriter(resultsContent, fullText);
   }
 
   // Muestra la sección de resultados
